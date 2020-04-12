@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>WordCloud with D3.js</title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script src="js/sankey.js"></script>
+    <h1 id="title">Mass Shooting in USA</h1>
+
+    <style>
+      body {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        margin: auto;
+        position: relative;
+        width: 960px;
+      }
+      form {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+      }
+      .node {
+        border: solid 1px white;
+        font: 10px sans-serif;
+        line-height: 12px;
+        overflow: hidden;
+        position: absolute;
+        text-indent: 2px;
+      }
+
+      #chart {
+        max-width: 100%;
+        overflow: auto;
+      }
+      text {
+        pointer-events: none;
+      }
+      .grandparent text {
+        font-weight: bold;
+      }
+      rect {
+        stroke: #fff;
+        stroke-width: 1px;
+      }
+      rect.parent,
+      .grandparent rect {
+        stroke-width: 3px;
+      }
+      .grandparent:hover rect {
+        fill: grey;
+      }
+      .children rect.parent,
+      .grandparent rect {
+        cursor: pointer;
+      }
+      .children rect.child {
+        opacity: 0;
+      }
+      .children:hover rect.child {
+        opacity: 1;
+        stroke-width: 1px;
+      }
+      .children:hover rect.parent {
+        opacity: 0;
+      }
+      .legend {
+        margin-bottom: 8px !important;
+      }
+      .legend rect {
+        stroke-width: 0px;
+      }
+      .legend text {
+        text-anchor: middle;
+        pointer-events: auto;
+        font-size: 13px;
+        font-family: sans-serif;
+        fill: black;
+      }
+      .form-group {
+        text-align: left;
+      }
+      .textdiv {
+        font-family: "Open Sans", Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        padding: 1px;
+        cursor: pointer;
+        overflow: none;
+      }
+      .textdiv .title {
+        font-weight: bold;
+        margin-top: 1px;
+        /* font-size:11px !important; */
+        font-size: 17;
+      }
+      .textdiv p {
+        /* line-height: 13px; */
+        margin: 0 0 1px /*!important*/;
+        padding: 0px;
+        /* font-size:10px !important; */
+        font-size: 12px;
+      }
+      .background {
+        fill: none;
+        pointer-events: all;
+      }
+
+      .feature {
+        fill: #ccc;
+        cursor: pointer;
+      }
+
+      .feature.active {
+        fill: #748db5;
+      }
+
+      .mesh {
+        fill: none;
+        stroke: #fff;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      /* div.tooltip #line {	 */
+      #mapTooltip {
+        position: absolute;
+        text-align: center;
+        width: 250px;
+        height: 120;
+        padding: 2px;
+        font: 12px sans-serif;
+        background: whitesmoke;
+        /* border-radius: 18px;			 */
+        pointer-events: none;
+      }
+      #line {
+        position: absolute;
+        text-align: center;
+        width: 100px;
+        height: 120;
+        padding: 12px;
+        font: 12px sans-serif;
+        color: black;
+        background: whitesmoke;
+        border: 0px;
+        /* border-radius: 18px;			 */
+        pointer-events: none;
+      }
+      .node rect {
+        cursor: move;
+        fill-opacity: 0.9;
+        shape-rendering: crispEdges;
+      }
+
+      .node text {
+        pointer-events: none;
+        text-shadow: 0 1px 0 #fff;
+      }
+
+      .link {
+        fill: none;
+        stroke: #000;
+        stroke-opacity: 0.2;
+      }
+
+      .link:hover {
+        stroke-opacity: 0.5;
+      }
+      #title {
+        position: absolute;
+        top: 0px;
+      }
+      #linechartTitle {
+        position: absolute;
+        top: 40px;
+      }
+      #linechart {
+        position: absolute;
+        top: 50px;
+      }
+      #treemap {
+        position: absolute;
+        top: 65px;
+        left: 690px;
+        width: 800px;
+        height: 260px;
+      }
+      #treemapTitle {
+        position: absolute;
+        left: 690px;
+        top: 40px;
+        width: 500px;
+      }
+      #map {
+        position: absolute;
+        top: 530px;
+        /* left:500px; */
+        width: 600;
+        height: 250px;
+      }
+      #mapTitle {
+        position: absolute;
+        /* left:50px; */
+        top: 480px;
+      }
+      #sk {
+        position: absolute;
+        top: 280px;
+        left: 670px;
+        width: 600;
+        height: 250px;
+      }
+      #skTitle {
+        position: absolute;
+        top: 250px;
+        left: 690px;
+        width: 1400px;
+      }
+      #wordcloud {
+        position: absolute;
+        top: 460px;
+        left: 930px;
+        width: 600;
+        height: 10;
+      }
+      #wordcloudTitle {
+        position: absolute;
+        top: 480px;
+        left: 980px;
+        width: 400px;
+        margin-right: 150px;
+        margin-left: 80px;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="js/state.js"></script>
+    <h3 id="linechartTitle">
+      Number of Mass Shooting Cases and Victims from Year 1982-2020
+    </h3>
+    <p id="linechart" width="100"></p>
+    <script src="js/linechart2.js"></script>
+
+    <h3 id="treemapTitle">Characteristic of Mass Shooter</h3>
+    <p id="treemap" width="100"></p>
+    <script src="js/treemap.js"></script>
+
+    <h3 id="mapTitle">Map Visualization of Mass Shooting Cases</h3>
+    <p id="map"></p>
+    <script src="js/map.js"></script>
+
+    <h3 id="skTitle">
+      Mass Shooter's mental illness condition and the method of obtaining the
+      weapon
+    </h3>
+    <p id="sk"></p>
+    <script src="js/for_sankey.js"></script>
+
+    <h3 id="wordcloudTitle">WordCloud of report summary</h3>
+    <p id="wordcloud"></p>
+    <script src="js/d3.layout.cloud.js"></script>
+    <script type="text/javascript" src="textarc/js/stop_words.js"></script>
+    <script src="js/wordcloud.js"></script>
+  </body>
+</html>
