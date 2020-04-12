@@ -1,5 +1,4 @@
-# DataVisualization
-Interactive Visualization of Mass Shooting in America
+# Interactive Visualization of Mass Shooting in America
 
 Project Description:
 Mass shooting is a major problem in the United States. The number of incidents is increasing and widespread throughout the country like an epidemic. People are debating on the root cause of and how to prevent mass shootings while the issue remains unsolved. 
