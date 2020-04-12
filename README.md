@@ -16,7 +16,7 @@ Dataset:
 The visualizations in our project are based primarily on the Mother Jones open-source database that documents mass shootings in the United States from 1982-present. (https://www.motherjones.com/politics/2012/12/mass-shootings-mother-jones-full-data/) It captures many attributes of mass shooting events, including number of victims, venue, location, gun type, gun status, race of perpetrator, mental health status of perpetrator. 
 
 Language used: 
-Python, d3.js
+d3.js
 
 Insights from data:
  1. Mass shootings have grown in frequency and the number of victims, especially in the last decade. 
@@ -24,7 +24,6 @@ Insights from data:
  3. The mass-shooter traits are white race, male gender, age: 8-25, have prior signs of mental health issues.
  4. The majority of mass shooters had previous signs of mental illness, and many obtained the firearms legally.
 
-
-
+To run: Store all the codes in htdocs, and run index.html in xampp
 
 
